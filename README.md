@@ -1,31 +1,53 @@
-# Apache Helm Chart
+# ⎈ Apache Helm Chart
 
-[![Helm Version](https://img.shields.io/badge/Helm-3.x-blue.svg?style=flat-square)](https://helm.sh/)
-[![Kubernetes Version](https://img.shields.io/badge/Kubernetes-1.24+-green.svg?style=flat-square)](https://kubernetes.io/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+![Helm](https://img.shields.io/badge/Helm-0F1689?style=flat-square&logo=helm&logoColor=white) ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white)
 
-This Helm chart deploys an **Apache HTTP Server** on a Kubernetes cluster.
+A **Helm 3 chart** that deploys the **Apache HTTP Server** on Kubernetes with configurable replicas, resources, service type, autoscaling and ingress.
 
----
+## ✨ Features
 
-## 🚀 Features
+- Deployment, Service and ServiceAccount templates
+- Optional **HPA**, **Ingress** and **Gateway API HTTPRoute**
+- Helm test (`test-connection.yaml`) to verify the release
+- Packaged chart: `apache-helm-0.1.0.tgz`
 
-- **Scalable:** Adjust `replicaCount` to scale pods.
-- **Configurable Resources:** Customize CPU/memory requests and limits.
-- **Flexible Service:** Supports `ClusterIP`, `NodePort`, or `LoadBalancer`.
-- **Easy Access:** Quick local access with port forwarding.
+## 📁 Structure
 
----
+```
+apache-helm/
+├── Chart.yaml
+├── values.yaml
+└── templates/
+    ├── deployment.yaml  service.yaml  serviceaccount.yaml
+    ├── hpa.yaml  ingress.yaml  httproute.yaml
+    ├── _helpers.tpl  NOTES.txt
+    └── tests/test-connection.yaml
+```
 
-## 🛠 Prerequisites
-
-- Kubernetes cluster (local, cloud, or KIND)
-- `kubectl` installed and configured
-- Helm 3 installed
-
-Install Helm 3:
+## 🚀 Usage
 
 ```bash
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
+# install Helm 3
 ./get_helm.sh
+
+# install the chart
+helm install apache ./apache-helm
+
+# customize
+helm upgrade apache ./apache-helm --set replicaCount=3 --set service.type=NodePort
+
+# test and access
+helm test apache
+kubectl port-forward svc/apache-apache-helm 8080:80
+
+# remove
+helm uninstall apache
+```
+
+---
+
+## 👤 Author
+
+**Abdur Rehman** · DevSecOps Engineer · Founder of [ARTechOps](https://artechops.com)
+
+[LinkedIn](https://www.linkedin.com/in/muhamad-abdur-rehman-81777b366/) · [GitHub](https://github.com/abdur-rehman-tech) · [artechops.com](https://artechops.com)
